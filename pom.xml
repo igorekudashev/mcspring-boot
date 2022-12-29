@@ -9,16 +9,16 @@
     <groupId>dev.alangomes</groupId>
     <artifactId>spigot-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
-    <version>0.20.7</version>
+    <version>0.21.0</version>
     <description>Spring support for spigot plugins</description>
     <url>https://github.com/Alan-Gomes/mcspring-boot</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <java.version>1.8</java.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <coveralls.token>null</coveralls.token>
         <delombok.output>${project.build.directory}/delombok</delombok.output>
     </properties>
@@ -70,7 +70,7 @@
         </repository>
         <repository>
             <id>vault-repo</id>
-            <url>http://nexus.hc.to/content/repositories/pub_releases</url>
+            <url>https://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
     </repositories>
 
@@ -79,7 +79,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.5.7</version>
+                <version>3.0.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -90,7 +90,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.6</version>
+            <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -110,17 +110,16 @@
         <dependency>
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
-            <version>3.9.5</version>
+            <version>4.7.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.9</version>
         </dependency>
         <dependency>
             <groupId>org.switchyard</groupId>
             <artifactId>switchyard-common</artifactId>
-            <version>2.1.0.Final</version>
+            <version>1.1.0.Final</version>
         </dependency>
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
@@ -132,6 +131,7 @@
         <dependency>
             <groupId>io.reactivex.rxjava2</groupId>
             <artifactId>rxjava</artifactId>
+            <version>2.2.21</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
