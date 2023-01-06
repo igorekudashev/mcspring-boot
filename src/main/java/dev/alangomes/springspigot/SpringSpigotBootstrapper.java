@@ -32,30 +32,22 @@ public final class SpringSpigotBootstrapper {
     }
 
     public static ConfigurableApplicationContext initialize(JavaPlugin plugin, ClassLoader classLoader, SpringApplicationBuilder builder) throws ExecutionException, InterruptedException {
-        val executor = Executors.newSingleThreadExecutor();
+        Thread.currentThread().setContextClassLoader(classLoader);
+
+        val props = new Properties();
         try {
-            Future<ConfigurableApplicationContext> contextFuture = executor.submit(() -> {
-                Thread.currentThread().setContextClassLoader(classLoader);
-
-                val props = new Properties();
-                try {
-                    props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties"));
-                } catch (Exception ignored) {
-                }
-
-                if (builder.application().getResourceLoader() == null) {
-                    val loader = new DefaultResourceLoader(classLoader);
-                    builder.resourceLoader(loader);
-                }
-                return builder
-                        .properties(props)
-                        .initializers(new SpringSpigotInitializer(plugin))
-                        .run();
-            });
-            return contextFuture.get();
-        } finally {
-            executor.shutdown();
+            props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties"));
+        } catch (Exception ignored) {
         }
+
+        if (builder.application().getResourceLoader() == null) {
+            val loader = new DefaultResourceLoader(classLoader);
+            builder.resourceLoader(loader);
+        }
+        return builder
+                .properties(props)
+                .initializers(new SpringSpigotInitializer(plugin))
+                .run();
     }
 
 
