@@ -9,7 +9,7 @@
     <groupId>dev.alangomes</groupId>
     <artifactId>spigot-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
-    <version>0.21.1</version>
+    <version>0.21.2</version>
     <description>Spring support for spigot plugins</description>
     <url>https://github.com/Alan-Gomes/mcspring-boot</url>
 
@@ -64,6 +64,10 @@
     </developers>
 
     <repositories>
+        <repository>
+            <id>redhat-repo</id>
+            <url>https://maven.repository.redhat.com/ga/</url>
+        </repository>
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
@@ -124,7 +128,7 @@
         <dependency>
             <groupId>org.switchyard</groupId>
             <artifactId>switchyard-common</artifactId>
-            <version>1.1.0.Final</version>
+            <version>2.1.0.Final</version>
         </dependency>
         <dependency>
             <groupId>net.milkbowl.vault</groupId>

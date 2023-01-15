@@ -17,7 +17,11 @@ import org.springframework.core.env.PropertiesPropertySource;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SpringSpigotInitializerTest {
@@ -66,7 +70,7 @@ public class SpringSpigotInitializerTest {
         PropertiesPropertySource propertySource = propertySourceCaptor.getValue();
         Map<String, Object> props = propertySource.getSource();
 
-        assertEquals(PLUGIN_NAME, props.get("spigot.plugin"));
+        assertEquals(PLUGIN_NAME, props.get("spigot.plugin.name"));
     }
 
 }

@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.SchedulingConfiguration;
 
@@ -63,8 +64,8 @@ class SpringSpigotAutoConfiguration {
     }
 
     @Bean(destroyMethod = "")
-    Plugin pluginBean(@Value("${spigot.plugin}") String pluginName) {
-        return Bukkit.getPluginManager().getPlugin(pluginName);
+    Plugin pluginBean(Environment environment) {
+        return environment.getProperty("spigot.plugin.instance", Plugin.class);
     }
 
     @Bean(destroyMethod = "")
