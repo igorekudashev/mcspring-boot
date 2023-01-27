@@ -1,5 +1,8 @@
 package dev.alangomes.springspigot.event;
 
+import dev.alangomes.springspigot.configuration.properties.McSpringProperties;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.bukkit.Server;
 import org.bukkit.event.Event;
@@ -15,20 +18,22 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class EventService {
 
-    @Autowired
-    private SpringEventExecutor eventExecutor;
+    private final SpringEventExecutor eventExecutor;
+    private final Server server;
 
-    @Autowired
-    private Server server;
-
-    @Autowired
-    private Plugin plugin;
+    private final Plugin plugin;
+    private final McSpringProperties properties;
 
     public void registerEvents(Listener listener) {
         getListenerMethods(listener).forEach(method -> registerEvents(listener, method));
+        if (properties.getLogging().isOnRegisterListener()) {
+            log.info("Listener {} successfully registered!", listener.getClass().getSimpleName());
+        }
     }
 
     private void registerEvents(Listener listener, Method method) {

@@ -2,6 +2,7 @@ package dev.alangomes.springspigot.command;
 
 import dev.alangomes.springspigot.context.Context;
 import dev.alangomes.springspigot.picocli.CommandLineDefinition;
+import dev.alangomes.springspigot.context.AfterContextInit;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,6 @@ import org.springframework.stereotype.Component;
 import picocli.CommandLine;
 import picocli.CommandLine.Model.CommandSpec;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +37,7 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @Component
 @Scope(SCOPE_SINGLETON)
 @ConditionalOnBean(annotation = CommandLine.Command.class)
-class CommandService {
+class CommandService implements AfterContextInit {
 
     private static final String DEFAULT_COMMAND_NAME = "<main class>";
 
@@ -64,8 +64,8 @@ class CommandService {
 
     private Class<?> bukkitClass;
 
-    @PostConstruct
-    void init() {
+    @Override
+    public void init() {
         try {
             List<CommandSpec> commandSpecs = getCommands();
             val packageName = plugin.getServer().getClass().getPackage().getName();

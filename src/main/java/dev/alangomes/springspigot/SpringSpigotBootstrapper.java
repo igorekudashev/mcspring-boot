@@ -1,5 +1,6 @@
 package dev.alangomes.springspigot;
 
+import dev.alangomes.springspigot.context.AfterContextInitializer;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -65,7 +66,10 @@ public final class SpringSpigotBootstrapper {
                         .initializers(new SpringSpigotInitializer(plugin, getPropertySources()))
                         .run();
             });
-            return contextFuture.get();
+            val context = contextFuture.get();
+            // TODO: придумать получше
+            context.getBean(AfterContextInitializer.class).initializeAll();
+            return context;
         } finally {
             executor.shutdown();
         }
