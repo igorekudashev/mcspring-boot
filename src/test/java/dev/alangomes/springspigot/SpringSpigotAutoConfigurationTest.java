@@ -1,5 +1,6 @@
 package dev.alangomes.springspigot;
 
+import dev.alangomes.springspigot.configuration.properties.SpringSpigotProperties;
 import dev.alangomes.springspigot.event.EventService;
 import org.bukkit.event.Listener;
 import org.junit.Before;
@@ -7,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -27,6 +29,9 @@ public class SpringSpigotAutoConfigurationTest {
 
     @Mock
     private EventService eventService;
+
+    @Spy
+    private SpringSpigotProperties properties;
 
     @InjectMocks
     private SpringSpigotAutoConfiguration startupHook;

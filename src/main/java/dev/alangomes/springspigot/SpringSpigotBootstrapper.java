@@ -16,7 +16,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -27,7 +30,7 @@ public final class SpringSpigotBootstrapper {
 
     private final JavaPlugin plugin;
     private final SpringApplicationBuilder builder;
-    private final List<String> additionalYamlProperties = new ArrayList<>();
+    private final Set<String> additionalYamlProperties = new HashSet<>();
 
     private ClassLoader classLoader;
 
@@ -47,7 +50,7 @@ public final class SpringSpigotBootstrapper {
     }
 
     // List of yaml files in plugin folder e.g. application.yml
-    public SpringSpigotBootstrapper addAdditionalYamlProperties(String ... files) {
+    public SpringSpigotBootstrapper addAdditionalYamlProperties(String... files) {
         additionalYamlProperties.addAll(Arrays.asList(files));
         return this;
     }
@@ -58,12 +61,19 @@ public final class SpringSpigotBootstrapper {
             Future<ConfigurableApplicationContext> contextFuture = executor.submit(() -> {
                 Thread.currentThread().setContextClassLoader(classLoader);
 
+                val props = new Properties();
+                try {
+                    props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties"));
+                } catch (Exception ignored) {
+                }
+
                 if (builder.application().getResourceLoader() == null) {
                     val loader = new DefaultResourceLoader(classLoader);
                     builder.resourceLoader(loader);
                 }
                 return builder
-                        .initializers(new SpringSpigotInitializer(plugin, getPropertySources()))
+                        .properties(props)
+                        .initializers(new SpringSpigotInitializer(plugin, getAdditionalPropertySources()))
                         .run();
             });
             val context = contextFuture.get();
@@ -75,7 +85,8 @@ public final class SpringSpigotBootstrapper {
         }
     }
 
-    private List<PropertySource<?>> getPropertySources() {
+    private List<PropertySource<?>> getAdditionalPropertySources() {
+        additionalYamlProperties.add("application.yml");
         return additionalYamlProperties.stream()
                 .peek(fileName -> {
                     try {

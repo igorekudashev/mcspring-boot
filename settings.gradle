@@ -1,0 +1,17 @@
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven {
+            url = uri('https://maven.repository.redhat.com/ga/')
+        }
+        maven {
+            url = uri('https://hub.spigotmc.org/nexus/content/repositories/snapshots/')
+        }
+        maven {
+            url = uri('https://nexus.hc.to/content/repositories/pub_releases')
+        }
+    }
+}
+
+rootProject.name = 'spigot-spring-boot-starter'

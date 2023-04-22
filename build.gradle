@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'java-library'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+group = 'dev.alangomes'
+version = '0.22.0'
+description = 'Spring Boot Spigot Starter'
+
+dependencies {
+
+    // spring
+    api(platform('org.springframework.boot:spring-boot-dependencies:2.7.7'))
+    api 'org.springframework.boot:spring-boot-starter'
+    api 'org.springframework.boot:spring-boot-starter-aop'
+
+    // spigot
+    compileOnly 'org.spigotmc:spigot-api:1.19.3-R0.1-SNAPSHOT'
+    compileOnly 'net.milkbowl.vault:VaultAPI:1.7'
+
+    // utils
+    api 'info.picocli:picocli:4.7.0'
+    compileOnly 'io.reactivex.rxjava2:rxjava:2.2.21'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.switchyard:switchyard-common:2.1.0.Final'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+configurations {
+    testImplementation.extendsFrom compileOnly
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}

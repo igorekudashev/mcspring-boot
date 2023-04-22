@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @Configuration
-@ConfigurationProperties("mcspring")
-public class McSpringProperties {
+@ConfigurationProperties("spring-spigot")
+public class SpringSpigotProperties {
 
     private Logging logging = new Logging();
     private Registration registration = new Registration();
@@ -15,12 +15,12 @@ public class McSpringProperties {
     @Data
     public static class Logging {
 
-        private boolean onRegisterListener = true;
+        private boolean listeners = true;
     }
 
     @Data
     public static class Registration {
 
-        private boolean registerListeners = true;
+        private boolean listeners = true;
     }
 }

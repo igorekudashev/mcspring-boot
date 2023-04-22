@@ -1,6 +1,6 @@
 package dev.alangomes.springspigot;
 
-import dev.alangomes.springspigot.configuration.properties.McSpringProperties;
+import dev.alangomes.springspigot.configuration.properties.SpringSpigotProperties;
 import dev.alangomes.springspigot.context.Context;
 import dev.alangomes.springspigot.event.EventService;
 import dev.alangomes.springspigot.scope.SenderContextScope;
@@ -13,7 +13,6 @@ import org.bukkit.Server;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -38,7 +37,7 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 class SpringSpigotAutoConfiguration {
 
     private final ConfigurableApplicationContext applicationContext;
-    private final McSpringProperties properties;
+    private final SpringSpigotProperties properties;
 
     private boolean initialized = false;
 
@@ -46,7 +45,7 @@ class SpringSpigotAutoConfiguration {
     public void onStartup(ContextRefreshedEvent event) {
         if (initialized) return;
         initialized = true;
-        if (properties.getRegistration().isRegisterListeners()) {
+        if (properties.getRegistration().isListeners()) {
             val beans = applicationContext.getBeansOfType(Listener.class).values();
             val eventService = applicationContext.getBean(EventService.class);
             beans.forEach(eventService::registerEvents);
