@@ -99,7 +99,7 @@ public final class SpringSpigotBootstrapper {
                 .filter(File::exists)
                 .flatMap(file -> {
                     try {
-                        return new YamlPropertySourceLoader().load("appProperties", new FileSystemResource(file)).stream();
+                        return new YamlPropertySourceLoader().load(file.getAbsolutePath(), new FileSystemResource(file)).stream();
                     } catch (IOException e) {
                         log.error("Unexpected error while creating YamlPropertySourceLoader for {}: {}", file.getPath(), e.getMessage());
                         return Stream.empty();

@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'dev.alangomes'
-version = '0.22.1'
+version = '0.22.2'
 description = 'Spring Boot Spigot Starter'
 
 dependencies {
