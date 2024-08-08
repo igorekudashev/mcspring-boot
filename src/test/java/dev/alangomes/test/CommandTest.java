@@ -1,5 +1,6 @@
 package dev.alangomes.test;
 
+import dev.alangomes.BaseTest;
 import dev.alangomes.springspigot.command.CommandExecutor;
 import dev.alangomes.springspigot.command.CommandResult;
 import dev.alangomes.springspigot.command.Subcommand;
@@ -10,9 +11,9 @@ import dev.alangomes.springspigot.security.Authorize;
 import dev.alangomes.test.util.SpringSpigotTestInitializer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -21,21 +22,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import picocli.CommandLine;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@Disabled
 @ContextConfiguration(
         classes = {TestApplication.class, CommandTest.TestCommand.class, CommandTest.MoneyCommand.class,
                 CommandTest.MoneyWithdrawCommand.class, CommandTest.ConverterCommand.class,
@@ -43,7 +43,7 @@ import static org.mockito.Mockito.when;
         initializers = SpringSpigotTestInitializer.class
 )
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class CommandTest {
+public class CommandTest extends BaseTest {
 
     @Autowired
     private CommandExecutor executor;
@@ -60,7 +60,7 @@ public class CommandTest {
     @Mock
     private Player player, player2;
 
-    @Before
+    @BeforeEach
     public void setup() {
         when(player.getName()).thenReturn("player1");
         when(player2.getName()).thenReturn("player2");

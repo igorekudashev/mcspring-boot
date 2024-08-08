@@ -1,13 +1,12 @@
 package dev.alangomes.springspigot;
 
+import dev.alangomes.BaseTest;
 import org.bukkit.Server;
 import org.bukkit.event.Listener;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
@@ -17,8 +16,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ScopePostProcessorTest {
+public class ScopePostProcessorTest extends BaseTest {
 
     @Mock
     private ConfigurableListableBeanFactory factory;
@@ -29,7 +27,7 @@ public class ScopePostProcessorTest {
     @InjectMocks
     private ScopePostProcessor scopePostProcessor;
 
-    @Before
+    @BeforeEach
     public void setup() {
         when(factory.getBeanDefinitionNames()).thenReturn(new String[]{"bean1", "bean2", "bean3"});
 

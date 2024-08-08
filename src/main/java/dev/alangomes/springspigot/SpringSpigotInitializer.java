@@ -13,8 +13,7 @@ import java.util.Properties;
 /**
  * Initializer that set core properties and adds config yml source
  */
-public class SpringSpigotInitializer implements
-        ApplicationContextInitializer<ConfigurableApplicationContext> {
+public class SpringSpigotInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
     private final Plugin plugin;
     private final List<PropertySource<?>> additionalProperties;
@@ -28,6 +27,7 @@ public class SpringSpigotInitializer implements
         this.additionalProperties = additionalProperties;
     }
 
+    @Override
     public void initialize(ConfigurableApplicationContext context) {
         val propertySources = context.getEnvironment().getPropertySources();
         additionalProperties.forEach(propertySources::addLast);
@@ -38,5 +38,4 @@ public class SpringSpigotInitializer implements
         props.put("spigot.plugin.name", plugin.getName());
         propertySources.addLast(new PropertiesPropertySource("spring-bukkit", props));
     }
-
 }

@@ -1,8 +1,9 @@
 package dev.alangomes.springspigot.command;
 
+import dev.alangomes.springspigot.context.AfterContextInit;
 import dev.alangomes.springspigot.context.Context;
 import dev.alangomes.springspigot.picocli.CommandLineDefinition;
-import dev.alangomes.springspigot.context.AfterContextInit;
+import jakarta.annotation.PreDestroy;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Component;
 import picocli.CommandLine;
 import picocli.CommandLine.Model.CommandSpec;
 
-import javax.annotation.PreDestroy;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +35,6 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 
 @Slf4j
 @Component
-@Scope(SCOPE_SINGLETON)
 @ConditionalOnBean(annotation = CommandLine.Command.class)
 class CommandService implements AfterContextInit {
 
@@ -68,9 +67,7 @@ class CommandService implements AfterContextInit {
     public void init() {
         try {
             List<CommandSpec> commandSpecs = getCommands();
-            val packageName = plugin.getServer().getClass().getPackage().getName();
-            val version = packageName.substring(packageName.lastIndexOf('.') + 1);
-            this.bukkitClass = Class.forName("org.bukkit.craftbukkit." + version + ".CraftServer", false, resourceLoader.getClassLoader());
+            this.bukkitClass = Class.forName("org.bukkit.craftbukkit.CraftServer", false, resourceLoader.getClassLoader());
             commandSpecs.forEach(this::registerCommand);
             log.debug("Succesfully registered {} commands", commandSpecs.size());
             registered = true;

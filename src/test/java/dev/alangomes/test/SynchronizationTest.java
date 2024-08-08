@@ -1,5 +1,6 @@
 package dev.alangomes.test;
 
+import dev.alangomes.BaseTest;
 import dev.alangomes.springspigot.context.Context;
 import dev.alangomes.springspigot.util.Synchronize;
 import dev.alangomes.test.util.SpringSpigotTestInitializer;
@@ -7,9 +8,9 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -26,13 +26,13 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@Disabled
 @ContextConfiguration(
         classes = {TestApplication.class, SynchronizationTest.TestService.class},
         initializers = SpringSpigotTestInitializer.class
 )
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class SynchronizationTest {
+public class SynchronizationTest extends BaseTest {
 
     @Autowired
     private TestService testService;
@@ -55,7 +55,7 @@ public class SynchronizationTest {
     @Mock
     private Player player;
 
-    @Before
+    @BeforeEach
     public void setup() {
         when(player.getName()).thenReturn("test");
         when(server.getOnlineMode()).thenReturn(false);

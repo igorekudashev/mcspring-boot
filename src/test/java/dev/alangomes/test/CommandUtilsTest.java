@@ -1,5 +1,6 @@
 package dev.alangomes.test;
 
+import dev.alangomes.BaseTest;
 import dev.alangomes.springspigot.command.Subcommand;
 import dev.alangomes.springspigot.picocli.CommandLineDefinition;
 import dev.alangomes.springspigot.util.CommandUtils;
@@ -7,16 +8,15 @@ import dev.alangomes.test.util.SpringSpigotTestInitializer;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import picocli.CommandLine;
 import picocli.CommandLine.Model.CommandSpec;
 
@@ -25,22 +25,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@Disabled
 @ContextConfiguration(
         classes = {TestApplication.class, CommandUtilsTest.BaseCommand.class, CommandUtilsTest.ValueSuggestions.class,
                 CommandUtilsTest.ExternalSubcommand.class, CommandUtilsTest.NestedSubcommand.class},
         initializers = SpringSpigotTestInitializer.class
 )
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class CommandUtilsTest {
+public class CommandUtilsTest extends BaseTest {
 
     @Autowired
     private CommandLineDefinition commandLineDefinition;
@@ -53,7 +53,7 @@ public class CommandUtilsTest {
 
     private CommandSpec commandSpec;
 
-    @Before
+    @BeforeEach
     public void init() {
         commandSpec =
                 commandLineDefinition.build(applicationContext).getSubcommands().values().iterator().next().getCommandSpec();

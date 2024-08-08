@@ -1,15 +1,14 @@
 package dev.alangomes.springspigot.util;
 
+import dev.alangomes.BaseTest;
 import dev.alangomes.springspigot.util.scheduler.SchedulerService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.bukkit.Server;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyLong;
@@ -18,8 +17,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class UtilAspectTest {
+public class UtilAspectTest extends BaseTest {
 
     @Mock
     private ProceedingJoinPoint joinPoint;

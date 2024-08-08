@@ -2,6 +2,7 @@ package dev.alangomes.springspigot.extensions.vault;
 
 import dev.alangomes.springspigot.extensions.EconomyException;
 import dev.alangomes.springspigot.extensions.EconomyService;
+import jakarta.annotation.PostConstruct;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
@@ -12,7 +13,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 
 @Lazy

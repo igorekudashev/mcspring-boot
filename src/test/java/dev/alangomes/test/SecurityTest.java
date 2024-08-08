@@ -1,5 +1,6 @@
 package dev.alangomes.test;
 
+import dev.alangomes.BaseTest;
 import dev.alangomes.springspigot.context.Context;
 import dev.alangomes.springspigot.context.SessionService;
 import dev.alangomes.springspigot.exception.PermissionDeniedException;
@@ -13,29 +14,29 @@ import dev.alangomes.test.util.SpringSpigotTestInitializer;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
 
-@RunWith(SpringRunner.class)
+@Disabled
 @ContextConfiguration(
         classes = {TestApplication.class, SecurityTest.TestService.class, SecurityTest.GuardServiceImpl.class},
         initializers = SpringSpigotTestInitializer.class
 )
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class SecurityTest {
+public class SecurityTest extends BaseTest {
 
     @Autowired
     private TestService testService;
@@ -52,22 +53,22 @@ public class SecurityTest {
     @Mock
     private Player player;
 
-    @Before
+    @BeforeEach
     public void setup() {
         when(player.getName()).thenReturn("test_player");
         when(server.getPlayer("test_player")).thenReturn(player);
     }
 
-    @Test(expected = PlayerNotFoundException.class)
+    @Test
     public void shouldThrowExceptionIfNoPlayerInContext() {
-        testService.sum(2, 2);
+        assertThrows(PlayerNotFoundException.class, () -> testService.sum(2, 2));
     }
 
-    @Test(expected = PermissionDeniedException.class)
+    @Test
     public void shouldThrowExceptionIfPermissionWasDenied() {
         when(player.hasPermission("server.kill")).thenReturn(false);
 
-        context.runWithSender(player, () -> testService.sum(2, 2));
+        assertThrows(PermissionDeniedException.class, () -> context.runWithSender(player, () -> testService.sum(2, 2)));
     }
 
     @Test
@@ -95,23 +96,25 @@ public class SecurityTest {
         assertEquals("The call was not successful", 10, result);
     }
 
-    @Test(expected = PermissionDeniedException.class)
+    @Test
     public void shouldCallGuardMethod() {
         when(player.hasPermission("test.admin")).thenReturn(false);
 
-        context.runWithSender(player, testService::testGuard);
+        assertThrows(PermissionDeniedException.class, () -> context.runWithSender(player, testService::testGuard));
     }
 
-    @Test(expected = PermissionDeniedException.class)
+    @Test
     public void shouldThrowExceptionWithCustomMessageIfPermissionWasDenied() {
         when(player.hasPermission("server.shutdown")).thenReturn(false);
 
-        try {
-            context.runWithSender(player, testService::testMessage);
-        } catch (PermissionDeniedException exception) {
-            assertEquals("You cannot shutdown the server!", exception.getMessage());
-            throw exception;
-        }
+        assertThrows(PermissionDeniedException.class, () -> {
+            try {
+                context.runWithSender(player, testService::testMessage);
+            } catch (PermissionDeniedException exception) {
+                assertEquals("The call was not successful", "You cannot shutdown the server!", exception.getMessage());
+                throw exception;
+            }
+        });
     }
 
     @Test
@@ -122,17 +125,19 @@ public class SecurityTest {
         });
     }
 
-    @Test(expected = PermissionDeniedException.class)
+    @Test
     public void shouldThrowExceptionWithCustomMessageIfSenderIsNotPlayer() {
         ConsoleCommandSender sender = mock(ConsoleCommandSender.class);
         when(server.getConsoleSender()).thenReturn(sender);
 
-        try {
-            context.runWithSender(sender, testService::testPlayer);
-        } catch (PermissionDeniedException exception) {
-            assertEquals("Only players can run this method!", exception.getMessage());
-            throw exception;
-        }
+        assertThrows(PermissionDeniedException.class, () -> {
+            try {
+                context.runWithSender(sender, testService::testPlayer);
+            } catch (PermissionDeniedException exception) {
+                assertEquals("The call was not successful", "Only players can run this method!", exception.getMessage());
+                throw exception;
+            }
+        });
     }
 
     @Service

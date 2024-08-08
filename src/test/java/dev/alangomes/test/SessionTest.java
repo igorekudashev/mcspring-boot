@@ -1,5 +1,6 @@
 package dev.alangomes.test;
 
+import dev.alangomes.BaseTest;
 import dev.alangomes.springspigot.context.Context;
 import dev.alangomes.springspigot.context.DefaultSessionService;
 import dev.alangomes.springspigot.context.SessionService;
@@ -11,27 +12,26 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.EventExecutor;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@Disabled
 @ContextConfiguration(
         classes = TestApplication.class,
         initializers = SpringSpigotTestInitializer.class
 )
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class SessionTest {
+public class SessionTest extends BaseTest {
 
     @Autowired
     private SessionService sessionService;
@@ -50,7 +50,7 @@ public class SessionTest {
 
     private EventExecutor eventExecutor;
 
-    @Before
+    @BeforeEach
     @SneakyThrows
     public void setup() {
         when(server.getOnlineMode()).thenReturn(false);

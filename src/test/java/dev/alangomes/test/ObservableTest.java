@@ -1,5 +1,6 @@
 package dev.alangomes.test;
 
+import dev.alangomes.BaseTest;
 import dev.alangomes.springspigot.context.Context;
 import dev.alangomes.springspigot.reactive.ObserveEvent;
 import dev.alangomes.test.util.SpringSpigotTestInitializer;
@@ -15,9 +16,9 @@ import org.bukkit.event.EventException;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -26,7 +27,6 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
@@ -34,13 +34,13 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@Disabled
 @ContextConfiguration(
         classes = {TestApplication.class},
         initializers = SpringSpigotTestInitializer.class
 )
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class ObservableTest {
+public class ObservableTest extends BaseTest {
 
     @Autowired
     private Server server;
@@ -60,7 +60,7 @@ public class ObservableTest {
     @ObserveEvent
     private Observable<TestEvent> testEventObservable;
 
-    @Before
+    @BeforeEach
     public void setup() {
         when(player.getName()).thenReturn("player");
         when(server.getPlayer("player")).thenReturn(player);

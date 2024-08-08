@@ -3,6 +3,7 @@ package dev.alangomes.springspigot.reactive;
 import dev.alangomes.springspigot.context.Context;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
+import jakarta.annotation.PreDestroy;
 import lombok.val;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -14,18 +15,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
-import javax.annotation.PreDestroy;
-
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
 @Configuration
 @ConditionalOnClass(Observable.class)
 class ReactiveConfiguration {
 
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    @Scope(SCOPE_PROTOTYPE)
     @Bean
+    @Scope(SCOPE_PROTOTYPE)
     public <T extends Event> Observable<T> eventObservable(InjectionPoint injectionPoint, Plugin plugin, Context context) {
         val observeEvent = injectionPoint.getAnnotation(ObserveEvent.class);
         if (observeEvent == null) return null;
@@ -40,5 +39,4 @@ class ReactiveConfiguration {
     void destroy() {
         compositeDisposable.dispose();
     }
-
 }

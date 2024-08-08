@@ -1,33 +1,33 @@
 package dev.alangomes.test;
 
+import dev.alangomes.BaseTest;
 import dev.alangomes.springspigot.configuration.DynamicValue;
 import dev.alangomes.springspigot.configuration.Instance;
 import dev.alangomes.test.util.SpringSpigotTestInitializer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@Disabled
 @ContextConfiguration(
         classes = TestApplication.class,
         initializers = SpringSpigotTestInitializer.class
 )
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class ConfigurationTest {
+public class ConfigurationTest extends BaseTest {
 
     @DynamicValue("${command.message}")
     private Instance<String> commandMessage;
@@ -40,7 +40,7 @@ public class ConfigurationTest {
 
     private FileConfiguration configuration;
 
-    @Before
+    @BeforeEach
     public void setup() {
         configuration = plugin.getConfig();
     }

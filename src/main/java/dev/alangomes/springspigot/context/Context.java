@@ -1,6 +1,8 @@
 package dev.alangomes.springspigot.context;
 
 import dev.alangomes.springspigot.util.ServerUtil;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.val;
@@ -10,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +22,6 @@ import java.util.function.Supplier;
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
 
 @Component
-@Scope(SCOPE_SINGLETON)
 public class Context {
 
     @Getter
